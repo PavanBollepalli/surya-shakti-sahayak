@@ -1,263 +1,256 @@
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-type Language = 'en' | 'te' | 'hi';
-
 interface LanguageContextType {
-  language: Language;
-  setLanguage: (lang: Language) => void;
+  language: string;
+  setLanguage: (lang: string) => void;
   t: (key: string) => string;
 }
 
+const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+
 const translations = {
   en: {
-    // Navigation
-    home: 'Home',
-    calculator: 'Solar Calculator',
-    schemes: 'Government Schemes',
-    resources: 'Resources',
-    language: 'Language',
+    // Header
+    solarSeva: "SolarSeva",
+    home: "Home",
+    calculator: "Calculator",
+    schemes: "Schemes",
+    resources: "Resources",
     
-    // Homepage
-    heroTitle: 'Harness Solar Power for Your Home',
-    heroSubtitle: 'Discover how solar energy can reduce your electricity bills and help the environment. Get personalized recommendations and find government subsidies.',
-    learnMore: 'Learn More',
-    getStarted: 'Get Started',
+    // Hero Section
+    heroTitle: "Harness the Power of Sun for Rural India",
+    heroSubtitle: "Clean, affordable solar energy solutions for every village household",
     
     // Benefits
-    benefitsTitle: 'Why Choose Solar Energy?',
-    benefit1Title: 'Save Money',
-    benefit1Desc: 'Reduce your monthly electricity bills by up to 80%',
-    benefit2Title: 'Help Environment',
-    benefit2Desc: 'Clean, renewable energy that reduces pollution',
-    benefit3Title: 'Government Support',
-    benefit3Desc: 'Get subsidies up to 40% on solar installation',
+    benefitsTitle: "Why Choose Solar Energy?",
+    benefit1Title: "Save Money",
+    benefit1Desc: "Reduce your electricity bills by up to 90% and earn from excess power generation",
+    benefit2Title: "Help Environment",
+    benefit2Desc: "Reduce carbon footprint and contribute to a cleaner, greener future",
+    benefit3Title: "Energy Independence",
+    benefit3Desc: "Generate your own power and become independent from grid failures",
     
     // Calculator
-    calcTitle: 'Solar Power Calculator',
-    monthlyBill: 'Monthly Electricity Bill (₹)',
-    monthlyUnits: 'Monthly Units Consumed',
-    rooftopSpace: 'Do you have rooftop space?',
-    householdType: 'Household Type',
-    calculate: 'Calculate',
-    
-    // Household Types
-    single: 'Single Person',
-    family: 'Family',
-    farmer: 'Farmer',
-    business: 'Small Business',
+    calcTitle: "Solar Power Calculator",
+    monthlyBill: "Monthly Electricity Bill (₹)",
+    monthlyUnits: "Monthly Units Consumed",
+    rooftopSpace: "Do you have rooftop space?",
+    householdType: "Household Type",
+    yes: "Yes",
+    no: "No",
+    single: "Single Person",
+    family: "Family",
+    farmer: "Farmer",
+    business: "Business",
+    calculate: "Calculate Solar Requirements",
+    recommendedSystem: "Your Recommended Solar System",
+    estimatedCost: "Estimated Cost",
+    subsidy: "Government Subsidy",
+    afterSubsidy: "Cost After Subsidy",
+    monthlySavings: "Monthly Savings",
+    paybackPeriod: "Payback Period",
     
     // Schemes
-    schemesTitle: 'Government Solar Schemes',
-    casteCategory: 'Category',
-    incomeLevel: 'Annual Income',
-    state: 'State',
-    findSchemes: 'Find Schemes',
-    
-    // Categories
-    general: 'General',
-    sc: 'SC (Scheduled Caste)',
-    st: 'ST (Scheduled Tribe)',
-    bc: 'BC (Backward Class)',
-    obc: 'OBC (Other Backward Class)',
-    
-    // Income Levels
-    below2lakh: 'Below ₹2 Lakh',
-    '2to5lakh': '₹2-5 Lakh',
-    '5to10lakh': '₹5-10 Lakh',
-    above10lakh: 'Above ₹10 Lakh',
-    
-    // Results
-    recommendedSystem: 'Recommended Solar System',
-    estimatedCost: 'Estimated Cost',
-    afterSubsidy: 'After Subsidy',
-    monthlySavings: 'Monthly Savings',
-    paybackPeriod: 'Payback Period',
+    schemesTitle: "Government Solar Schemes",
+    casteCategory: "Caste Category",
+    incomeLevel: "Annual Income Level",
+    state: "State",
+    general: "General",
+    sc: "SC (Scheduled Caste)",
+    st: "ST (Scheduled Tribe)",
+    obc: "OBC (Other Backward Class)",
+    below2lakh: "Below ₹2 Lakh",
+    lakh2to5: "₹2-5 Lakh",
+    lakh5to10: "₹5-10 Lakh",
+    above10lakh: "Above ₹10 Lakh",
+    andhraPradesh: "Andhra Pradesh",
+    findSchemes: "Find Eligible Schemes",
+    eligibleSchemes: "Your Eligible Schemes",
+    eligibility: "Eligibility",
+    subsidyAmount: "Subsidy Amount",
+    documents: "Required Documents",
+    deadline: "Application Deadline",
+    applyNow: "Apply Now",
     
     // Resources
-    resourcesTitle: 'Helpful Resources',
-    mnrePortal: 'MNRE Official Portal',
-    apNredcap: 'AP NREDCAP Portal',
-    nationalRooftop: 'National Rooftop Portal',
-    
-    // Common
-    yes: 'Yes',
-    no: 'No',
-    apply: 'Apply Now',
-    viewDetails: 'View Details',
-    eligibility: 'Eligibility',
-    subsidy: 'Subsidy Amount',
-    documents: 'Required Documents'
+    resourcesTitle: "Solar Energy Resources",
+    officialPortals: "Official Government Portals",
+    mnrePortal: "Ministry of New and Renewable Energy",
+    nationalRooftop: "National Rooftop Portal",
+    apNredcap: "AP New and Renewable Energy Development Corporation",
+    solarPolicyAP: "Andhra Pradesh Solar Policy",
+    faqTitle: "Frequently Asked Questions",
+    contactTitle: "Need Help?",
+    helplineNumber: "Solar Helpline: 1800-180-3333",
+    emailSupport: "Email: support@solarseva.in",
+    available247: "Available 24/7 for assistance"
   },
   
   te: {
-    // Navigation (Telugu)
-    home: 'హోమ్',
-    calculator: 'సోలార్ కాలిక్యులేటర్',
-    schemes: 'ప్రభుత్వ పథకాలు',
-    resources: 'వనరులు',
-    language: 'భాష',
+    // Header (Telugu)
+    solarSeva: "సోలార్ సేవ",
+    home: "హోమ్",
+    calculator: "కాలిక్యులేటర్",
+    schemes: "పథకాలు",
+    resources: "వనరులు",
     
-    // Homepage
-    heroTitle: 'మీ ఇంటికి సౌర శక్తిని వినియోగించండి',
-    heroSubtitle: 'సౌర శక్తి మీ విద్యుత్ బిల్లులను ఎలా తగ్గిస్తుందో మరియు పర్యావరణానికి ఎలా సహాయపడుతుందో తెలుసుకోండి. వ్యక్తిగత సిఫార్సులు మరియు ప్రభుత్వ సబ్సిడీలను పొందండి.',
-    learnMore: 'మరింత తెలుసుకోండి',
-    getStarted: 'ప్రారంభించండి',
+    // Hero Section
+    heroTitle: "గ్రామీణ భారతదేశానికి సూర్య శక్తిని ఉపయోగించండి",
+    heroSubtitle: "ప్రతి గ్రామ కుటుంబానికి స్వచ్ఛమైన, సరసమైన సౌర శక్తి పరిష్కారాలు",
     
     // Benefits
-    benefitsTitle: 'సౌర శక్తిని ఎందుకు ఎంచుకోవాలి?',
-    benefit1Title: 'డబ్బు ఆదా చేయండి',
-    benefit1Desc: 'మీ నెలవారీ విద్యుత్ బిల్లులను 80% వరకు తగ్గించండి',
-    benefit2Title: 'పర్యావరణానికి సహాయం',
-    benefit2Desc: 'కాలుష్యాన్ని తగ్గించే శుభ్రమైన, పునరుత్పాదక శక్తి',
-    benefit3Title: 'ప్రభుత్వ మద్దతు',
-    benefit3Desc: 'సౌర సంస్థాపనపై 40% వరకు సబ్సిడీలు పొందండి',
+    benefitsTitle: "సౌర శక్తిని ఎందుకు ఎంచుకోవాలి?",
+    benefit1Title: "డబ్బు ఆదా చేయండి",
+    benefit1Desc: "మీ విద్యుత్ బిల్లులను 90% వరకు తగ్గించండి మరియు అదనపు విద్యుత్ ఉత్పాదన నుండి సంపాదించండి",
+    benefit2Title: "పర్యావరణానికి సహాయం చేయండి",
+    benefit2Desc: "కార్బన్ పాదముద్రను తగ్గించండి మరియు మరింత స్వచ్ఛమైన, పచ్చని భవిష్యత్తుకు దోహదపడండి",
+    benefit3Title: "శక్తి స్వాతంత్ర్యం",
+    benefit3Desc: "మీ స్వంత విద్యుత్తును ఉత్పత్తి చేయండి మరియు గ్రిడ్ వైఫల్యాల నుండి స్వతంత్రులు అవ్వండి",
     
     // Calculator
-    calcTitle: 'సౌర శక్తి కాలిక్యులేటర్',
-    monthlyBill: 'నెలవారీ విద్యుత్ బిల్లు (₹)',
-    monthlyUnits: 'నెలవారీ యూనిట్లు వినియోగం',
-    rooftopSpace: 'మీకు పైకప్పు స్థలం ఉందా?',
-    householdType: 'ఇంటి రకం',
-    calculate: 'లెక్కించండి',
-    
-    // Household Types
-    single: 'ఒకే వ్యక్తి',
-    family: 'కుటుంబం',
-    farmer: 'రైతు',
-    business: 'చిన్న వ్యాపారం',
+    calcTitle: "సౌర శక్తి కాలిక్యులేటర్",
+    monthlyBill: "నెలవారీ విద్యుత్ బిల్లు (₹)",
+    monthlyUnits: "నెలవారీ యూనిట్లు వినియోగం",
+    rooftopSpace: "మీకు పైకప్పు స్థలం ఉందా?",
+    householdType: "కుటుంబ రకం",
+    yes: "అవును",
+    no: "లేదు",
+    single: "ఒకే వ్యక్తి",
+    family: "కుటుంబం",
+    farmer: "రైతు",
+    business: "వ్యాపారం",
+    calculate: "సౌర అవసరాలను లెక్కించండి",
+    recommendedSystem: "మీకు సిఫార్సు చేయబడిన సౌర వ్యవస్థ",
+    estimatedCost: "అంచనా వేసిన ఖర్చు",
+    subsidy: "ప్రభుత్వ సబ్సిడీ",
+    afterSubsidy: "సబ్సిడీ తర్వాత ఖర్చు",
+    monthlySavings: "నెలవారీ ఆదా",
+    paybackPeriod: "తిరిగి చెల్లించే కాలం",
     
     // Schemes
-    schemesTitle: 'ప్రభుత్వ సౌర పథకాలు',
-    casteCategory: 'వర్గం',
-    incomeLevel: 'వార్షిక ఆదాయం',
-    state: 'రాష్ట్రం',
-    findSchemes: 'పథకాలను కనుగొనండి',
-    
-    // Categories
-    general: 'సాధారణ',
-    sc: 'SC (షెడ్యూల్డ్ కాస్ట్)',
-    st: 'ST (షెడ్యూల్డ్ ట్రైబ్)',
-    bc: 'BC (వెనుకబడిన వర్గం)',
-    obc: 'OBC (ఇతర వెనుకబడిన వర్గం)',
-    
-    // Income Levels
-    below2lakh: '₹2 లక్షల కంటే తక్కువ',
-    '2to5lakh': '₹2-5 లక్షలు',
-    '5to10lakh': '₹5-10 లక్షలు',
-    above10lakh: '₹10 లక్షలకు మించి',
-    
-    // Results
-    recommendedSystem: 'సిఫార్సు చేయబడిన సౌర వ్యవస్థ',
-    estimatedCost: 'అంచనా వేసిన ఖర్చు',
-    afterSubsidy: 'సబ్సిడీ తర్వాత',
-    monthlySavings: 'నెలవారీ పొదుపు',
-    paybackPeriod: 'రాబడి కాలం',
+    schemesTitle: "ప్రభుత్వ సౌర పథకాలు",
+    casteCategory: "కుల వర్గం",
+    incomeLevel: "వార్షిక ఆదాయ స్థాయి",
+    state: "రాష్ట్రం",
+    general: "సాధారణ",
+    sc: "SC (షెడ్యూల్డ్ కాస్ట్)",
+    st: "ST (షెడ్యూల్డ్ ట్రైబ్)",
+    obc: "OBC (ఇతర వెనుకబడిన వర్గం)",
+    below2lakh: "₹2 లక్షల కంటే తక్కువ",
+    lakh2to5: "₹2-5 లక్షలు",
+    lakh5to10: "₹5-10 లక్షలు",
+    above10lakh: "₹10 లక్షలకు మించి",
+    andhraPradesh: "ఆంధ్ర ప్రదేశ్",
+    findSchemes: "అర్హత గల పథకాలను కనుగొనండి",
+    eligibleSchemes: "మీ అర్హత గల పథకాలు",
+    eligibility: "అర్హత",
+    subsidyAmount: "సబ్సిడీ మొత్తం",
+    documents: "అవసరమైన పత్రాలు",
+    deadline: "దరఖాస్తు గడువు",
+    applyNow: "ఇప్పుడే దరఖాస్తు చేయండి",
     
     // Resources
-    resourcesTitle: 'సహాయకరమైన వనరులు',
-    mnrePortal: 'MNRE అధికారిక పోర్టల్',
-    apNredcap: 'AP NREDCAP పోర్టల్',
-    nationalRooftop: 'జాతీయ రూఫ్టాప్ పోర్టల్',
-    
-    // Common
-    yes: 'అవును',
-    no: 'లేదు',
-    apply: 'ఇప్పుడే దరఖాస్తు చేయండి',
-    viewDetails: 'వివరాలు చూడండి',
-    eligibility: 'అర్హత',
-    subsidy: 'సబ్సిడీ మొత్తం',
-    documents: 'అవసరమైన పత్రాలు'
+    resourcesTitle: "సౌర శక్తి వనరులు",
+    officialPortals: "అధికారిక ప్రభుత్వ పోర్టల్స్",
+    mnrePortal: "కొత్త మరియు పునరుత్పాదక శక్తి మంత్రిత్వ శాఖ",
+    nationalRooftop: "జాతీయ రూఫ్‌టాప్ పోర్టల్",
+    apNredcap: "AP కొత్త మరియు పునరుత్పాదక శక్తి అభివృద్ధి సంస్థ",
+    solarPolicyAP: "ఆంధ్ర ప్రదేశ్ సౌర విధానం",
+    faqTitle: "తరచుగా అడిగే ప్రశ్నలు",
+    contactTitle: "సహాయం కావాలా?",
+    helplineNumber: "సౌర హెల్ప్‌లైన్: 1800-180-3333",
+    emailSupport: "ఇమెయిల్: support@solarseva.in",
+    available247: "సహాయం కోసం 24/7 అందుబాటులో"
   },
   
   hi: {
-    // Navigation (Hindi)
-    home: 'होम',
-    calculator: 'सोलर कैलकुलेटर',
-    schemes: 'सरकारी योजनाएं',
-    resources: 'संसाधन',
-    language: 'भाषा',
+    // Header (Hindi)
+    solarSeva: "सोलर सेवा",
+    home: "होम",
+    calculator: "कैलकुलेटर",
+    schemes: "योजनाएं",
+    resources: "संसाधन",
     
-    // Homepage
-    heroTitle: 'अपने घर के लिए सौर ऊर्जा का उपयोग करें',
-    heroSubtitle: 'जानिए कि सौर ऊर्जा आपके बिजली के बिल को कैसे कम कर सकती है और पर्यावरण की मदद कर सकती है। व्यक्तिगत सिफारिशें प्राप्त करें और सरकारी सब्सिडी पाएं।',
-    learnMore: 'और जानें',
-    getStarted: 'शुरू करें',
+    // Hero Section
+    heroTitle: "ग्रामीण भारत के लिए सूर्य की शक्ति का उपयोग करें",
+    heroSubtitle: "हर गांव के घर के लिए स्वच्छ, किफायती सौर ऊर्जा समाधान",
     
     // Benefits
-    benefitsTitle: 'सौर ऊर्जा क्यों चुनें?',
-    benefit1Title: 'पैसे बचाएं',
-    benefit1Desc: 'अपने मासिक बिजली बिल को 80% तक कम करें',
-    benefit2Title: 'पर्यावरण की मदद',
-    benefit2Desc: 'स्वच्छ, नवीकरणीय ऊर्जा जो प्रदूषण को कम करती है',
-    benefit3Title: 'सरकारी सहायता',
-    benefit3Desc: 'सौर स्थापना पर 40% तक सब्सिडी प्राप्त करें',
+    benefitsTitle: "सौर ऊर्जा क्यों चुनें?",
+    benefit1Title: "पैसे बचाएं",
+    benefit1Desc: "अपने बिजली के बिल को 90% तक कम करें और अतिरिक्त बिजली उत्पादन से कमाई करें",
+    benefit2Title: "पर्यावरण की मदद करें",
+    benefit2Desc: "कार्बन फुटप्रिंट कम करें और एक स्वच्छ, हरित भविष्य में योगदान दें",
+    benefit3Title: "ऊर्जा स्वतंत्रता",
+    benefit3Desc: "अपनी बिजली उत्पन्न करें और ग्रिड विफलताओं से स्वतंत्र हो जाएं",
     
     // Calculator
-    calcTitle: 'सौर ऊर्जा कैलकुलेटर',
-    monthlyBill: 'मासिक बिजली बिल (₹)',
-    monthlyUnits: 'मासिक यूनिट खपत',
-    rooftopSpace: 'क्या आपके पास छत की जगह है?',
-    householdType: 'घरेलू प्रकार',
-    calculate: 'गणना करें',
-    
-    // Household Types
-    single: 'अकेला व्यक्ति',
-    family: 'परिवार',
-    farmer: 'किसान',
-    business: 'छोटा व्यापार',
+    calcTitle: "सौर ऊर्जा कैलकुलेटर",
+    monthlyBill: "मासिक बिजली बिल (₹)",
+    monthlyUnits: "मासिक यूनिट खपत",
+    rooftopSpace: "क्या आपके पास छत की जगह है?",
+    householdType: "घरेलू प्रकार",
+    yes: "हां",
+    no: "नहीं",
+    single: "अकेला व्यक्ति",
+    family: "परिवार",
+    farmer: "किसान",
+    business: "व्यवसाय",
+    calculate: "सौर आवश्यकताओं की गणना करें",
+    recommendedSystem: "आपके लिए अनुशंसित सौर प्रणाली",
+    estimatedCost: "अनुमानित लागत",
+    subsidy: "सरकारी सब्सिडी",
+    afterSubsidy: "सब्सिडी के बाद लागत",
+    monthlySavings: "मासिक बचत",
+    paybackPeriod: "वापसी की अवधि",
     
     // Schemes
-    schemesTitle: 'सरकारी सौर योजनाएं',
-    casteCategory: 'श्रेणी',
-    incomeLevel: 'वार्षिक आय',
-    state: 'राज्य',
-    findSchemes: 'योजनाएं खोजें',
-    
-    // Categories
-    general: 'सामान्य',
-    sc: 'SC (अनुसूचित जाति)',
-    st: 'ST (अनुसूचित जनजाति)',
-    bc: 'BC (पिछड़ा वर्ग)',
-    obc: 'OBC (अन्य पिछड़ा वर्ग)',
-    
-    // Income Levels
-    below2lakh: '₹2 लाख से कम',
-    '2to5lakh': '₹2-5 लाख',
-    '5to10lakh': '₹5-10 लाख',
-    above10lakh: '₹10 लाख से अधिक',
-    
-    // Results
-    recommendedSystem: 'अनुशंसित सौर प्रणाली',
-    estimatedCost: 'अनुमानित लागत',
-    afterSubsidy: 'सब्सिडी के बाद',
-    monthlySavings: 'मासिक बचत',
-    paybackPeriod: 'वापसी अवधि',
+    schemesTitle: "सरकारी सौर योजनाएं",
+    casteCategory: "जाति श्रेणी",
+    incomeLevel: "वार्षिक आय स्तर",
+    state: "राज्य",
+    general: "सामान्य",
+    sc: "SC (अनुसूचित जाति)",
+    st: "ST (अनुसूचित जनजाति)",
+    obc: "OBC (अन्य पिछड़ा वर्ग)",
+    below2lakh: "₹2 लाख से कम",
+    lakh2to5: "₹2-5 लाख",
+    lakh5to10: "₹5-10 लाख",
+    above10lakh: "₹10 लाख से अधिक",
+    andhraPradesh: "आंध्र प्रदेश",
+    findSchemes: "योग्य योजनाएं खोजें",
+    eligibleSchemes: "आपकी योग्य योजनाएं",
+    eligibility: "योग्यता",
+    subsidyAmount: "सब्सिडी राशि",
+    documents: "आवश्यक दस्तावेज",
+    deadline: "आवेदन की अंतिम तिथि",
+    applyNow: "अभी आवेदन करें",
     
     // Resources
-    resourcesTitle: 'सहायक संसाधन',
-    mnrePortal: 'MNRE आधिकारिक पोर्टल',
-    apNredcap: 'AP NREDCAP पोर्टल',
-    nationalRooftop: 'राष्ट्रीय रूफटॉप पोर्टल',
-    
-    // Common
-    yes: 'हां',
-    no: 'नहीं',
-    apply: 'अभी आवेदन करें',
-    viewDetails: 'विवरण देखें',
-    eligibility: 'पात्रता',
-    subsidy: 'सब्सिडी राशि',
-    documents: 'आवश्यक दस्तावेज'
+    resourcesTitle: "सौर ऊर्जा संसाधन",
+    officialPortals: "आधिकारिक सरकारी पोर्टल",
+    mnrePortal: "नवीन और नवीकरणीय ऊर्जा मंत्रालय",
+    nationalRooftop: "राष्ट्रीय रूफटॉप पोर्टल",
+    apNredcap: "AP नवीन और नवीकरणीय ऊर्जा विकास निगम",
+    solarPolicyAP: "आंध्र प्रदेश सौर नीति",
+    faqTitle: "अक्सर पूछे जाने वाले प्रश्न",
+    contactTitle: "मदद चाहिए?",
+    helplineNumber: "सौर हेल्पलाइन: 1800-180-3333",
+    emailSupport: "ईमेल: support@solarseva.in",
+    available247: "सहायता के लिए 24/7 उपलब्ध"
   }
 };
 
-const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+interface LanguageProviderProps {
+  children: ReactNode;
+}
 
-export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [language, setLanguage] = useState<Language>('en');
+export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) => {
+  const [language, setLanguage] = useState('en');
 
   const t = (key: string): string => {
-    return translations[language][key as keyof typeof translations['en']] || key;
+    return translations[language as keyof typeof translations]?.[key as keyof typeof translations.en] || key;
   };
 
   return (
