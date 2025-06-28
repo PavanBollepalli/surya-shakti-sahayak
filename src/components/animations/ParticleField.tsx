@@ -8,12 +8,20 @@ const ParticleField: React.FC = () => {
     if (!containerRef.current) return;
 
     const particles: HTMLDivElement[] = [];
-    const particleCount = 50;
+    const particleCount = 60;
 
-    // Create particles
+    // Create enhanced particles
     for (let i = 0; i < particleCount; i++) {
       const particle = document.createElement('div');
-      particle.className = 'absolute w-1 h-1 bg-solar-yellow/30 rounded-full';
+      const size = Math.random() * 3 + 1;
+      const opacity = Math.random() * 0.6 + 0.2;
+      
+      particle.className = 'absolute rounded-full';
+      particle.style.width = `${size}px`;
+      particle.style.height = `${size}px`;
+      particle.style.backgroundColor = `hsl(${45 + Math.random() * 30}, 100%, ${60 + Math.random() * 20}%)`;
+      particle.style.opacity = opacity.toString();
+      particle.style.boxShadow = `0 0 ${size * 2}px currentColor`;
       
       // Random position
       particle.style.left = `${Math.random() * 100}%`;
@@ -23,19 +31,37 @@ const ParticleField: React.FC = () => {
       particles.push(particle);
     }
 
-    // Animate particles
+    // Enhanced particle animations
     particles.forEach((particle, index) => {
-      gsap.to(particle, {
-        x: `+=${Math.random() * 200 - 100}`,
-        y: `+=${Math.random() * 200 - 100}`,
+      const tl = gsap.timeline({ repeat: -1 });
+      
+      tl.to(particle, {
+        x: `+=${Math.random() * 300 - 150}`,
+        y: `+=${Math.random() * 300 - 150}`,
         opacity: Math.random() * 0.8 + 0.2,
-        scale: Math.random() * 2 + 0.5,
-        duration: Math.random() * 10 + 5,
-        repeat: -1,
-        yoyo: true,
+        scale: Math.random() * 1.5 + 0.5,
+        duration: Math.random() * 15 + 10,
         ease: 'sine.inOut',
-        delay: index * 0.1,
+      })
+      .to(particle, {
+        x: `+=${Math.random() * 300 - 150}`,
+        y: `+=${Math.random() * 300 - 150}`,
+        opacity: Math.random() * 0.8 + 0.2,
+        scale: Math.random() * 1.5 + 0.5,
+        duration: Math.random() * 15 + 10,
+        ease: 'sine.inOut',
+      })
+      .to(particle, {
+        x: 0,
+        y: 0,
+        opacity: Math.random() * 0.6 + 0.2,
+        scale: 1,
+        duration: Math.random() * 10 + 8,
+        ease: 'sine.inOut',
       });
+
+      // Stagger the start times
+      tl.delay(index * 0.1);
     });
 
     return () => {
