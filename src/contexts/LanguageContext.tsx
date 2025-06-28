@@ -1,11 +1,10 @@
-import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import { translateService } from '../services/translateService';
+
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 interface LanguageContextType {
   language: string;
   setLanguage: (lang: string) => void;
   t: (key: string) => string;
-  translateText: (text: string) => Promise<string>;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -254,24 +253,8 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
     return translations[language as keyof typeof translations]?.[key as keyof typeof translations.en] || key;
   };
 
-  const translateText = async (text: string): Promise<string> => {
-    if (language === 'en') {
-      return text;
-    }
-
-    // First check if we have a static translation
-    const staticTranslation = translations[language as keyof typeof translations]?.[text as keyof typeof translations.en];
-    if (staticTranslation) {
-      return staticTranslation;
-    }
-
-    // Use Google Translate API for dynamic content
-    const languageCode = language === 'te' ? 'te' : language === 'hi' ? 'hi' : 'en';
-    return await translateService.translateText(text, languageCode);
-  };
-
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t, translateText }}>
+    <LanguageContext.Provider value={{ language, setLanguage, t }}>
       {children}
     </LanguageContext.Provider>
   );
