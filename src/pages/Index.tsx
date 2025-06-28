@@ -7,7 +7,6 @@ import HeroSection from '../components/HeroSection';
 import SolarCalculator from '../components/SolarCalculator';
 import SchemesFinder from '../components/SchemesFinder';
 import ResourcesSection from '../components/ResourcesSection';
-import ApiKeyInput from '../components/ApiKeyInput';
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState('home');
@@ -56,11 +55,6 @@ const Index = () => {
     <LanguageProvider>
       <div className="min-h-screen bg-gradient-to-br from-orange-50 via-yellow-50 to-green-50">
         <Header activeSection={activeSection} setActiveSection={setActiveSection} />
-        
-        {/* API Key Input - shown on all pages */}
-        <div className="max-w-4xl mx-auto px-4 pt-4">
-          <ApiKeyInput />
-        </div>
         
         <main>
           {renderActiveSection()}

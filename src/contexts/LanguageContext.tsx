@@ -10,8 +10,6 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-// ... keep existing code (translations object with all the static translations)
-
 const translations = {
   en: {
     // Header
