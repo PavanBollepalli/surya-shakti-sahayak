@@ -52,7 +52,7 @@ const ModernHeader: React.FC<ModernHeaderProps> = ({ activeSection, setActiveSec
         }`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        transition={{ duration: 0.8, ease: 'power2.out' }}
+        transition={{ duration: 0.8, ease: 'easeOut' }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center">
