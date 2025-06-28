@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useScrollAnimation } from '@/hooks/useGSAP';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -14,10 +15,14 @@ import {
   Send,
   CheckCircle,
   MessageSquare,
-  Calendar
+  Calendar,
+  ExternalLink,
+  Globe,
+  Building
 } from 'lucide-react';
 
 const ContactSection: React.FC = () => {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -60,14 +65,14 @@ const ContactSection: React.FC = () => {
   const contactInfo = [
     {
       icon: <Phone className="h-6 w-6" />,
-      title: "Call Us",
+      title: t('callToday'),
       details: ["+91 1800-180-3333", "+91 9876543210"],
       description: "Speak with our solar experts"
     },
     {
       icon: <Mail className="h-6 w-6" />,
       title: "Email Us",
-      details: ["info@solarseva.in", "support@solarseva.in"],
+      details: ["info@solarsaathi.in", "support@solarsaathi.in"],
       description: "Get detailed information"
     },
     {
@@ -84,6 +89,37 @@ const ContactSection: React.FC = () => {
     }
   ];
 
+  const governmentContacts = [
+    {
+      title: "Ministry of New and Renewable Energy (MNRE)",
+      phone: "011-2436-0707",
+      email: "rooftopsolar@mnre.gov.in",
+      website: "https://mnre.gov.in",
+      description: "Central Government Solar Schemes & Policies"
+    },
+    {
+      title: "AP New and Renewable Energy Development Corporation",
+      phone: "0863-2340544",
+      email: "info@nredcap.ap.gov.in", 
+      website: "https://nredcap.ap.gov.in",
+      description: "Andhra Pradesh State Solar Programs"
+    },
+    {
+      title: "National Solar Rooftop Portal",
+      phone: "1800-180-3333",
+      email: "support@solarrooftop.gov.in",
+      website: "https://solarrooftop.gov.in",
+      description: "Online Solar Applications & Tracking"
+    },
+    {
+      title: "Solar Energy Corporation of India (SECI)",
+      phone: "011-4057-4000",
+      email: "info@seci.co.in",
+      website: "https://seci.co.in",
+      description: "Solar Project Implementation & Financing"
+    }
+  ];
+
   return (
     <section id="contact-section" ref={sectionRef} className="py-20 bg-gradient-to-b from-white to-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -95,7 +131,7 @@ const ContactSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            Get In Touch
+            {t('contactTitle')}
           </motion.span>
           <motion.h2 
             className="text-4xl md:text-5xl font-bold text-earth-brown mb-6"
@@ -118,7 +154,7 @@ const ContactSection: React.FC = () => {
           </motion.p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
+        <div className="grid lg:grid-cols-2 gap-12 mb-16">
           {/* Contact Form */}
           <motion.div
             className="contact-card"
@@ -190,11 +226,11 @@ const ContactSection: React.FC = () => {
                         onChange={handleInputChange}
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-solar-yellow focus:border-solar-yellow"
                       >
-                        <option value="residential">Residential Solar</option>
-                        <option value="commercial">Commercial Solar</option>
-                        <option value="industrial">Industrial Solar</option>
+                        <option value="residential">{t('residentialSolar')}</option>
+                        <option value="commercial">{t('commercialSolar')}</option>
+                        <option value="industrial">{t('industrialSolar')}</option>
                         <option value="maintenance">Maintenance & Support</option>
-                        <option value="consultation">Free Consultation</option>
+                        <option value="consultation">{t('freeConsultation')}</option>
                       </select>
                     </div>
 
@@ -316,9 +352,76 @@ const ContactSection: React.FC = () => {
           </div>
         </div>
 
+        {/* Government Contacts Section */}
+        <motion.div
+          className="mb-16"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          <div className="text-center mb-12">
+            <h3 className="text-3xl font-bold text-earth-brown mb-4 flex items-center justify-center">
+              <Building className="h-8 w-8 mr-3 text-solar-yellow" />
+              {t('govContactTitle')}
+            </h3>
+            <p className="text-gray-600 max-w-3xl mx-auto">
+              Direct contact information for official government solar energy departments and schemes
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {governmentContacts.map((contact, index) => (
+              <motion.div
+                key={index}
+                className="contact-card"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-blue-50 to-green-50">
+                  <CardContent className="p-6">
+                    <h4 className="font-bold text-earth-brown text-lg mb-3">
+                      {contact.title}
+                    </h4>
+                    <p className="text-gray-600 text-sm mb-4">
+                      {contact.description}
+                    </p>
+                    
+                    <div className="space-y-3">
+                      <div className="flex items-center space-x-3">
+                        <Phone className="h-4 w-4 text-blue-600" />
+                        <span className="text-gray-700 font-medium">{contact.phone}</span>
+                      </div>
+                      
+                      <div className="flex items-center space-x-3">
+                        <Mail className="h-4 w-4 text-green-600" />
+                        <span className="text-gray-700 font-medium">{contact.email}</span>
+                      </div>
+                      
+                      <div className="flex items-center space-x-3">
+                        <Globe className="h-4 w-4 text-purple-600" />
+                        <a 
+                          href={contact.website}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:text-blue-800 font-medium flex items-center"
+                        >
+                          Visit Website
+                          <ExternalLink className="h-3 w-3 ml-1" />
+                        </a>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
         {/* Map Section */}
         <motion.div
-          className="mt-16 contact-card"
+          className="contact-card"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

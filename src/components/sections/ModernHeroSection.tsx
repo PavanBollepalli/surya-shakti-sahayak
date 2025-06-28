@@ -6,7 +6,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import MagneticButton from '../ui/magnetic-button';
 import AnimatedCounter from '../ui/animated-counter';
 import { Button } from '@/components/ui/button';
-import { ArrowDown, Play, Zap, Leaf, Sun, TrendingUp } from 'lucide-react';
+import { ArrowDown, Play, Zap, Leaf, Sun, TrendingUp, Star, Shield } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -120,10 +120,30 @@ const ModernHeroSection: React.FC<ModernHeroSectionProps> = ({ setActiveSection 
     nextSection?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const scrollToCalculator = () => {
+    const calculatorSection = document.querySelector('#calculator-section');
+    if (calculatorSection) {
+      const headerHeight = 80;
+      const elementPosition = calculatorSection.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+      window.scrollTo({ top: elementPosition, behavior: 'smooth' });
+    }
+    setActiveSection('calculator');
+  };
+
+  const scrollToServices = () => {
+    const servicesSection = document.querySelector('#services-section');
+    if (servicesSection) {
+      const headerHeight = 80;
+      const elementPosition = servicesSection.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+      window.scrollTo({ top: elementPosition, behavior: 'smooth' });
+    }
+    setActiveSection('services');
+  };
+
   return (
     <section 
       ref={heroRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden hero-pattern"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden hero-pattern pt-20"
     >
       {/* Background Elements */}
       <div className="absolute inset-0 z-0">
@@ -141,75 +161,111 @@ const ModernHeroSection: React.FC<ModernHeroSectionProps> = ({ setActiveSection 
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Main Content */}
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-5xl mx-auto">
+          {/* Top Badge */}
           <motion.div
-            className="mb-6"
+            className="mb-8"
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <span className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-solar-yellow/20 to-leaf-green/20 text-earth-brown font-medium text-sm border border-solar-yellow/30">
-              <TrendingUp className="w-4 h-4 mr-2" />
-              India's #1 Solar Energy Platform
-            </span>
+            <div className="inline-flex items-center px-6 py-3 rounded-full bg-gradient-to-r from-solar-yellow/20 to-leaf-green/20 text-earth-brown font-bold text-base border-2 border-solar-yellow/30 shadow-lg">
+              <Star className="w-5 h-5 mr-2 text-solar-yellow" />
+              {t('indiaNumber1')}
+              <Shield className="w-5 h-5 ml-2 text-leaf-green" />
+            </div>
           </motion.div>
 
           <h1 
             ref={titleRef}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight"
+            className="text-4xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight"
           >
-            <span className="text-gradient">Power Your Future</span>
+            <span className="text-gradient">{t('heroTitle').split(' ').slice(0, 3).join(' ')}</span>
             <br />
-            <span className="text-earth-brown">with Solar Energy</span>
+            <span className="text-earth-brown">{t('heroTitle').split(' ').slice(3).join(' ')}</span>
           </h1>
 
           <p 
             ref={subtitleRef}
-            className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed"
+            className="text-lg md:text-xl text-gray-600 mb-10 max-w-4xl mx-auto leading-relaxed"
           >
-            Transform your home with clean, affordable solar solutions. 
-            Join thousands of families saving money while saving the planet.
+            {t('heroSubtitle')}
           </p>
 
-          <div ref={ctaRef} className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+          {/* Urgency Banner */}
+          <motion.div
+            className="bg-gradient-to-r from-red-500 to-orange-500 text-white p-4 rounded-2xl mb-8 shadow-xl"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.0 }}
+          >
+            <div className="flex items-center justify-center space-x-2 text-lg font-bold">
+              <span className="animate-pulse">⚡</span>
+              <span>{t('limitedOffer')} - {t('saveThousands')} {t('actNow')}!</span>
+              <span className="animate-pulse">⚡</span>
+            </div>
+          </motion.div>
+
+          <div ref={ctaRef} className="flex flex-col sm:flex-row gap-6 justify-center mb-12">
             <MagneticButton
-              onClick={() => setActiveSection('calculator')}
-              className="btn-solar text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg"
+              onClick={scrollToCalculator}
+              className="btn-solar text-white px-10 py-5 rounded-full text-xl font-bold shadow-2xl pulse-glow"
             >
-              <Zap className="w-5 h-5 mr-2 inline" />
-              Calculate Savings
+              <Zap className="w-6 h-6 mr-3 inline" />
+              {t('startSavingNow')}
             </MagneticButton>
             
             <MagneticButton
-              onClick={() => setActiveSection('services')}
-              className="bg-white/80 backdrop-blur-sm text-earth-brown px-8 py-4 rounded-full text-lg font-semibold border-2 border-solar-yellow/30 hover:bg-white hover:shadow-lg transition-all"
+              onClick={scrollToServices}
+              className="bg-white/90 backdrop-blur-sm text-earth-brown px-10 py-5 rounded-full text-xl font-bold border-3 border-solar-yellow/50 hover:bg-white hover:shadow-2xl transition-all"
             >
-              <Play className="w-5 h-5 mr-2 inline" />
-              Watch Demo
+              <Play className="w-6 h-6 mr-3 inline" />
+              {t('getFreeSubsidies')}
             </MagneticButton>
           </div>
 
+          {/* Action Keywords */}
+          <motion.div
+            className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 max-w-4xl mx-auto"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.3 }}
+          >
+            <div className="bg-gradient-to-r from-green-100 to-green-200 p-4 rounded-xl text-center">
+              <div className="text-2xl font-bold text-green-700">{t('freeConsultation')}</div>
+            </div>
+            <div className="bg-gradient-to-r from-blue-100 to-blue-200 p-4 rounded-xl text-center">
+              <div className="text-2xl font-bold text-blue-700">{t('instantQuote')}</div>
+            </div>
+            <div className="bg-gradient-to-r from-purple-100 to-purple-200 p-4 rounded-xl text-center">
+              <div className="text-2xl font-bold text-purple-700">{t('zeroDownPayment')}</div>
+            </div>
+            <div className="bg-gradient-to-r from-orange-100 to-orange-200 p-4 rounded-xl text-center">
+              <div className="text-2xl font-bold text-orange-700">{t('governmentSubsidy')}</div>
+            </div>
+          </motion.div>
+
           {/* Stats */}
-          <div ref={statsRef} className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
-            <div className="text-center">
+          <div ref={statsRef} className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto">
+            <div className="text-center bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-lg">
               <div className="text-3xl md:text-4xl font-bold text-gradient mb-2">
                 <AnimatedCounter end={10000} suffix="+" />
               </div>
               <p className="text-gray-600 font-medium">Happy Customers</p>
             </div>
-            <div className="text-center">
+            <div className="text-center bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-lg">
               <div className="text-3xl md:text-4xl font-bold text-gradient mb-2">
                 <AnimatedCounter end={50} suffix="MW" />
               </div>
               <p className="text-gray-600 font-medium">Solar Installed</p>
             </div>
-            <div className="text-center">
+            <div className="text-center bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-lg">
               <div className="text-3xl md:text-4xl font-bold text-gradient mb-2">
                 <AnimatedCounter end={90} suffix="%" />
               </div>
               <p className="text-gray-600 font-medium">Bill Reduction</p>
             </div>
-            <div className="text-center">
+            <div className="text-center bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-lg">
               <div className="text-3xl md:text-4xl font-bold text-gradient mb-2">
                 <AnimatedCounter end={25} suffix=" Years" />
               </div>

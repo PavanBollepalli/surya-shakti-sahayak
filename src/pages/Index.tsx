@@ -67,31 +67,6 @@ const Index = () => {
     return null;
   }
 
-  const renderActiveSection = () => {
-    switch (activeSection) {
-      case 'home':
-        return <ModernHeroSection setActiveSection={setActiveSection} />;
-      case 'about':
-        return <AboutSection />;
-      case 'services':
-        return <ServicesSection />;
-      case 'calculator':
-        return (
-          <section id="calculator-section" className="py-20 bg-white">
-            <div className="max-w-4xl mx-auto">
-              <SolarCalculator />
-            </div>
-          </section>
-        );
-      case 'testimonials':
-        return <TestimonialsSection />;
-      case 'contact':
-        return <ContactSection />;
-      default:
-        return <ModernHeroSection setActiveSection={setActiveSection} />;
-    }
-  };
-
   return (
     <LanguageProvider>
       <div className="min-h-screen bg-white overflow-x-hidden">
@@ -164,7 +139,7 @@ const Index = () => {
                       </svg>
                     </motion.div>
                   </div>
-                  <span className="text-2xl font-bold">SolarSeva</span>
+                  <span className="text-2xl font-bold">SolarSaathi</span>
                 </div>
                 <p className="text-gray-300 mb-4 max-w-md">
                   Empowering India with clean, affordable solar energy solutions. 
@@ -218,7 +193,7 @@ const Index = () => {
                 <h4 className="font-semibold mb-4">Contact Info</h4>
                 <div className="space-y-2 text-gray-300">
                   <p>📞 1800-180-3333</p>
-                  <p>✉️ info@solarseva.in</p>
+                  <p>✉️ info@solarsaathi.in</p>
                   <p>📍 Vijayawada, AP</p>
                   <p>🕒 24/7 Support</p>
                 </div>
@@ -226,7 +201,7 @@ const Index = () => {
             </div>
             
             <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-300">
-              <p>&copy; 2024 SolarSeva. Made with ❤️ for a Sustainable India. All rights reserved.</p>
+              <p>&copy; 2024 SolarSaathi. Made with ❤️ for a Sustainable India. All rights reserved.</p>
             </div>
           </div>
         </footer>

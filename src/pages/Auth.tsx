@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Button } from '@/components/ui/button';
@@ -84,7 +83,7 @@ const Auth = () => {
               <Sun className="h-8 w-8 text-white" />
             </div>
           </div>
-          <h2 className="text-3xl font-bold text-gray-900">SolarSeva</h2>
+          <h2 className="text-3xl font-bold text-gray-900">SolarSaathi</h2>
           <p className="mt-2 text-gray-600">
             {isSignUp ? 'Create your account' : 'Sign in to your account'}
           </p>

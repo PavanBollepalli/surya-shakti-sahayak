@@ -6,7 +6,6 @@ import LanguageToggle from '../LanguageToggle';
 import MagneticButton from '../ui/magnetic-button';
 import { Button } from '@/components/ui/button';
 import { Menu, X, Sun, User, LogOut } from 'lucide-react';
-import { gsap } from 'gsap';
 
 interface ModernHeaderProps {
   activeSection: string;
@@ -21,11 +20,11 @@ const ModernHeader: React.FC<ModernHeaderProps> = ({ activeSection, setActiveSec
 
   const navigation = [
     { id: 'home', label: t('home') },
-    { id: 'about', label: 'About' },
-    { id: 'services', label: 'Services' },
+    { id: 'about', label: t('about') },
+    { id: 'services', label: t('services') },
     { id: 'calculator', label: t('calculator') },
-    { id: 'testimonials', label: 'Reviews' },
-    { id: 'contact', label: 'Contact' }
+    { id: 'testimonials', label: t('testimonials') },
+    { id: 'contact', label: t('contact') }
   ];
 
   useEffect(() => {
@@ -40,6 +39,23 @@ const ModernHeader: React.FC<ModernHeaderProps> = ({ activeSection, setActiveSec
   const handleSignOut = async () => {
     await signOut();
     window.location.href = '/auth';
+  };
+
+  const scrollToSection = (sectionId: string) => {
+    setActiveSection(sectionId);
+    
+    if (sectionId === 'home') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      const element = document.getElementById(`${sectionId}-section`);
+      if (element) {
+        const headerHeight = 80;
+        const elementPosition = element.offsetTop - headerHeight;
+        window.scrollTo({ top: elementPosition, behavior: 'smooth' });
+      }
+    }
+    
+    setMobileMenuOpen(false);
   };
 
   return (
@@ -58,9 +74,10 @@ const ModernHeader: React.FC<ModernHeaderProps> = ({ activeSection, setActiveSec
           <div className="flex justify-between items-center">
             {/* Logo */}
             <motion.div 
-              className="flex items-center space-x-3"
+              className="flex items-center space-x-3 cursor-pointer"
               whileHover={{ scale: 1.05 }}
               transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+              onClick={() => scrollToSection('home')}
             >
               <div className="relative">
                 <motion.div
@@ -76,7 +93,7 @@ const ModernHeader: React.FC<ModernHeaderProps> = ({ activeSection, setActiveSec
                   transition={{ duration: 2, repeat: Infinity }}
                 />
               </div>
-              <span className="text-2xl font-bold text-gradient">SolarSeva</span>
+              <span className="text-2xl font-bold text-gradient">{t('solarSaathi')}</span>
             </motion.div>
 
             {/* Desktop Navigation */}
@@ -89,7 +106,7 @@ const ModernHeader: React.FC<ModernHeaderProps> = ({ activeSection, setActiveSec
                   transition={{ delay: index * 0.1 }}
                 >
                   <MagneticButton
-                    onClick={() => setActiveSection(item.id)}
+                    onClick={() => scrollToSection(item.id)}
                     className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                       activeSection === item.id
                         ? 'bg-gradient-to-r from-solar-yellow to-leaf-green text-white shadow-lg'
@@ -103,14 +120,16 @@ const ModernHeader: React.FC<ModernHeaderProps> = ({ activeSection, setActiveSec
             </nav>
 
             {/* User Actions & Language Toggle */}
-            <div className="flex items-center space-x-4">
-              <LanguageToggle />
+            <div className="flex items-center space-x-3">
+              <div className="hidden sm:block">
+                <LanguageToggle />
+              </div>
               
               {user ? (
                 <div className="hidden sm:flex items-center space-x-3">
                   <div className="flex items-center space-x-2 text-sm text-gray-600">
                     <User className="h-4 w-4" />
-                    <span className="hidden md:inline">{user.email}</span>
+                    <span className="hidden md:inline max-w-32 truncate">{user.email}</span>
                   </div>
                   <MagneticButton
                     onClick={handleSignOut}
@@ -123,7 +142,7 @@ const ModernHeader: React.FC<ModernHeaderProps> = ({ activeSection, setActiveSec
               ) : (
                 <MagneticButton
                   onClick={() => window.location.href = '/auth'}
-                  className="px-4 py-2 bg-gradient-to-r from-solar-yellow to-leaf-green text-white rounded-full font-medium hover:shadow-lg transition-all"
+                  className="hidden sm:block px-4 py-2 bg-gradient-to-r from-solar-yellow to-leaf-green text-white rounded-full font-medium hover:shadow-lg transition-all"
                 >
                   Sign In
                 </MagneticButton>
@@ -180,21 +199,23 @@ const ModernHeader: React.FC<ModernHeaderProps> = ({ activeSection, setActiveSec
               onClick={() => setMobileMenuOpen(false)}
             />
             <motion.div
-              className="absolute top-0 right-0 w-80 h-full bg-white shadow-2xl"
+              className="absolute top-0 right-0 w-80 h-full bg-white shadow-2xl overflow-y-auto"
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
             >
               <div className="p-6 pt-20">
+                {/* Language Toggle for Mobile */}
+                <div className="mb-6 pb-4 border-b border-gray-200">
+                  <LanguageToggle />
+                </div>
+
                 <nav className="space-y-4">
                   {navigation.map((item, index) => (
                     <motion.button
                       key={item.id}
-                      onClick={() => {
-                        setActiveSection(item.id);
-                        setMobileMenuOpen(false);
-                      }}
+                      onClick={() => scrollToSection(item.id)}
                       className={`block w-full text-left px-4 py-3 rounded-lg font-medium transition-all ${
                         activeSection === item.id
                           ? 'bg-gradient-to-r from-solar-yellow to-leaf-green text-white'
@@ -218,7 +239,7 @@ const ModernHeader: React.FC<ModernHeaderProps> = ({ activeSection, setActiveSec
                   >
                     <div className="flex items-center space-x-3 mb-4">
                       <User className="h-5 w-5 text-gray-500" />
-                      <span className="text-sm text-gray-600">{user.email}</span>
+                      <span className="text-sm text-gray-600 truncate">{user.email}</span>
                     </div>
                     <Button
                       onClick={handleSignOut}
