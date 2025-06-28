@@ -1,9 +1,10 @@
 
 import React, { useState } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useAuth } from '../contexts/AuthContext';
 import LanguageToggle from './LanguageToggle';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Sun } from 'lucide-react';
+import { Menu, X, Sun, User, LogOut } from 'lucide-react';
 
 interface HeaderProps {
   activeSection: string;
@@ -12,6 +13,7 @@ interface HeaderProps {
 
 const Header = ({ activeSection, setActiveSection }: HeaderProps) => {
   const { t } = useLanguage();
+  const { user, signOut } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navigation = [
@@ -20,6 +22,11 @@ const Header = ({ activeSection, setActiveSection }: HeaderProps) => {
     { id: 'schemes', label: t('schemes') },
     { id: 'resources', label: t('resources') }
   ];
+
+  const handleSignOut = async () => {
+    await signOut();
+    window.location.href = '/auth';
+  };
 
   return (
     <header className="bg-white shadow-sm border-b sticky top-0 z-50">
@@ -50,9 +57,35 @@ const Header = ({ activeSection, setActiveSection }: HeaderProps) => {
             ))}
           </nav>
 
-          {/* Language Toggle & Mobile Menu */}
+          {/* User Actions & Language Toggle */}
           <div className="flex items-center space-x-4">
             <LanguageToggle />
+            
+            {user ? (
+              <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-2 text-sm text-gray-600">
+                  <User className="h-4 w-4" />
+                  <span className="hidden sm:inline">{user.email}</span>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleSignOut}
+                  className="flex items-center space-x-1"
+                >
+                  <LogOut className="h-4 w-4" />
+                  <span className="hidden sm:inline">Sign Out</span>
+                </Button>
+              </div>
+            ) : (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => window.location.href = '/auth'}
+              >
+                Sign In
+              </Button>
+            )}
             
             {/* Mobile menu button */}
             <Button

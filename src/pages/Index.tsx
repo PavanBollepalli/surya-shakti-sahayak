@@ -1,6 +1,7 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { LanguageProvider } from '../contexts/LanguageContext';
+import { useAuth } from '../contexts/AuthContext';
 import Header from '../components/Header';
 import HeroSection from '../components/HeroSection';
 import SolarCalculator from '../components/SolarCalculator';
@@ -10,6 +11,31 @@ import ApiKeyInput from '../components/ApiKeyInput';
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState('home');
+  const { user, loading } = useAuth();
+
+  // Redirect to auth if not logged in
+  useEffect(() => {
+    if (!loading && !user) {
+      window.location.href = '/auth';
+    }
+  }, [user, loading]);
+
+  // Show loading while checking auth
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-yellow-50 to-green-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render if not authenticated
+  if (!user) {
+    return null;
+  }
 
   const renderActiveSection = () => {
     switch (activeSection) {
