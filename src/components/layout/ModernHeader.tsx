@@ -22,6 +22,7 @@ const ModernHeader: React.FC<ModernHeaderProps> = ({ activeSection, setActiveSec
     { id: 'home', label: t('home') },
     { id: 'about', label: t('about') },
     { id: 'services', label: t('services') },
+    { id: 'schemes', label: 'Government Schemes' },
     { id: 'calculator', label: t('calculator') },
     { id: 'testimonials', label: t('testimonials') },
     { id: 'contact', label: t('contact') }

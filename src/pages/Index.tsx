@@ -7,6 +7,7 @@ import ScrollPinnedStory from '../components/sections/ScrollPinnedStory';
 import ImpactMetrics from '../components/sections/ImpactMetrics';
 import AboutSection from '../components/sections/AboutSection';
 import ServicesSection from '../components/sections/ServicesSection';
+import GovernmentSchemesSection from '../components/sections/GovernmentSchemesSection';
 import SolarCalculator from '../components/SolarCalculator';
 import TestimonialsSection from '../components/sections/TestimonialsSection';
 import ContactSection from '../components/sections/ContactSection';
@@ -34,7 +35,7 @@ const Index = () => {
       setShowScrollTop(window.scrollY > 500);
 
       // Update active section based on scroll position
-      const sections = ['home', 'story', 'impact', 'about', 'services', 'calculator', 'testimonials', 'contact'];
+      const sections = ['home', 'story', 'impact', 'about', 'services', 'schemes', 'calculator', 'testimonials', 'contact'];
       const scrollPosition = window.scrollY + 100;
 
       for (const section of sections) {
@@ -119,6 +120,9 @@ const Index = () => {
                 {/* Services Section */}
                 <ServicesSection />
                 
+                {/* Government Schemes Section */}
+                <GovernmentSchemesSection />
+                
                 {/* Calculator Section */}
                 <section id="calculator-section" className="py-20 bg-gradient-to-b from-gray-50 to-white">
                   <div className="max-w-4xl mx-auto">
@@ -171,7 +175,7 @@ const Index = () => {
                         <span className="text-2xl font-bold">SolarSaathi</span>
                       </div>
                       <p className="text-gray-300 mb-4 max-w-md">
-                        Empowering India with clean, affordable solar energy solutions. 
+                        Empowering rural India with clean, affordable solar energy solutions. 
                         Join the renewable energy revolution and start saving today.
                       </p>
                       <div className="flex space-x-4">
@@ -213,6 +217,7 @@ const Index = () => {
                       <ul className="space-y-2 text-gray-300">
                         <li><button onClick={() => setActiveSection('about')} className="hover:text-solar-yellow transition-colors">About Us</button></li>
                         <li><button onClick={() => setActiveSection('services')} className="hover:text-solar-yellow transition-colors">Our Services</button></li>
+                        <li><button onClick={() => setActiveSection('schemes')} className="hover:text-solar-yellow transition-colors">Government Schemes</button></li>
                         <li><button onClick={() => setActiveSection('calculator')} className="hover:text-solar-yellow transition-colors">Solar Calculator</button></li>
                         <li><button onClick={() => setActiveSection('contact')} className="hover:text-solar-yellow transition-colors">Contact Us</button></li>
                       </ul>
@@ -223,14 +228,14 @@ const Index = () => {
                       <div className="space-y-2 text-gray-300">
                         <p>📞 1800-180-3333</p>
                         <p>✉️ info@solarsaathi.in</p>
-                        <p>📍 Vijayawada, AP</p>
-                        <p>🕒 24/7 Support</p>
+                        <p>📍 Rural India Support</p>
+                        <p>🕒 24/7 Helpline</p>
                       </div>
                     </div>
                   </div>
                   
                   <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-300">
-                    <p>&copy; 2024 SolarSaathi. Made with ❤️ for a Sustainable India. All rights reserved.</p>
+                    <p>&copy; 2024 SolarSaathi. Made with ❤️ for Rural India's Solar Revolution. All rights reserved.</p>
                   </div>
                 </div>
               </footer>
